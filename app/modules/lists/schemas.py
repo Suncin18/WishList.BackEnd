@@ -27,6 +27,7 @@ class ListResponse(BaseModel):
     title: str
     owner_id: int
     items: List[ItemResponse] = []
+    shares: List[dict] = [] # Para identificar si una lista ha sido compartida o no
 
     class Config:
         from_attributes = True
