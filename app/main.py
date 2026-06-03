@@ -15,9 +15,15 @@ app = FastAPI(
 )
 
 # --- CONFIGURACIÓN DE CORS ---
+origins = [
+    "https://wishdroplist.netlify.app/",
+    "http://localhost:5173",
+    "http://127.0.0.1:5173"
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://127.0.0.1:5173"], # Puertos de Vite
+    allow_origins=origins, # Puertos de Vite
     allow_credentials=True,
     allow_methods=["*"], # Permite GET, POST, PUT, DELETE, etc.
     allow_headers=["*"], # Permite todos los headers (incluyendo el Authorization)
