@@ -22,12 +22,20 @@ class ItemResponse(BaseModel):
 class ListCreate(BaseModel):
     title: str = Field(..., min_length=1)
 
+class ListShareResponse(BaseModel):
+    id: int
+    list_id: int
+    shared_with_user_id: int
+
+    class Config:
+        from_attributes = True
+
 class ListResponse(BaseModel):
     id: int
     title: str
     owner_id: int
     items: List[ItemResponse] = []
-    shares: List[dict] = [] # Para identificar si una lista ha sido compartida o no
+    shares: List[ListShareResponse] = [] # Para identificar si una lista ha sido compartida o no
 
     class Config:
         from_attributes = True
