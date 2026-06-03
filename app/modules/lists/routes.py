@@ -48,8 +48,8 @@ def get_my_lists(db: Session = Depends(get_db), current_user_id: int = Depends(g
 def get_shared_with_me(db: Session = Depends(get_db), current_user_id: int = Depends(get_current_user_id)):
     return crud.get_shared_lists(db, user_id=current_user_id)
 
-# 6. Marcar ítem como comprado (Solo para usuarios invitados con acceso)
-@router.put("/items/{item_id}/buy", response_model=schemas.ItemResponse)
+# 6. Cambiar el estado de comprado (Toggle) del ítem (Solo para usuarios con acceso)
+@router.put("/items/{item_id}/toggle-bought", response_model=schemas.ItemResponse)
 def buy_item(item_id: int, db: Session = Depends(get_db), current_user_id: int = Depends(get_current_user_id)):
     # Buscar las listas compartidas con el usuario actual para ver si tiene acceso a ese ítem
     shared_lists = crud.get_shared_lists(db, user_id=current_user_id)
@@ -62,4 +62,7 @@ def buy_item(item_id: int, db: Session = Depends(get_db), current_user_id: int =
     if not item or item.list_id not in shared_list_ids:
         raise HTTPException(status_code=403, detail="No tenés acceso para marcar este ítem.")
         
-    return crud.mark_item_as_bought(db, item_id, is_bought=True)
+    # Se asigna el estado opuesto a is bought, si estaba comprado, se desmarca, sino, se marca
+    nuevo_estado = not item.is_bought
+    
+    return crud.mark_item_as_bought(db, item_id, is_bought=nuevo_estado)
