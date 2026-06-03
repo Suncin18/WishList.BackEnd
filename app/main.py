@@ -16,7 +16,7 @@ app = FastAPI(
 
 # --- CONFIGURACIÓN DE CORS ---
 origins = [
-    "https://wishdroplist.netlify.app/",
+    "https://wishdroplist.netlify.app",
     "http://localhost:5173",
     "http://127.0.0.1:5173"
 ]
